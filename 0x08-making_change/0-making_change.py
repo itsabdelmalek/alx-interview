@@ -12,10 +12,13 @@ def makeChange(coins, total):
              -1 if total is not achievable with the given coins
              0 if total is 0 or less
     """
+
     if total <= 0:
         return 0
-    dp = [0] + [float("inf")] * (total)
+    dp = [float('inf')] * (total + 1)
+    dp[0] = 0
     for coin in coins:
         for i in range(coin, total + 1):
             dp[i] = min(dp[i], dp[i - coin] + 1)
-    return dp[-1] if dp[-1] != float("inf") else -1
+
+    return dp[total] if dp[total] != float('inf') else -1
