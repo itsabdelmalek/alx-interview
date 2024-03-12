@@ -4,6 +4,16 @@ Prime Game code
 """
 
 
+def get_Multiples(num, mult):
+    """
+    Finds multiples of a given number within a list
+    """
+    for i in mult:
+        if i % num == 0:
+            mult.remove(i)
+    return mult
+
+
 def if_Prime(i):
     """
     Checks if a number is prime.
