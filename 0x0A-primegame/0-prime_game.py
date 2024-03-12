@@ -3,76 +3,51 @@
 Prime Game code
 """
 
-
-def get_Multiples(num, mult):
-    """
-    Finds multiples of a given number within a list
-    """
-    for i in mult:
-        if i % num == 0:
-            mult.remove(i)
-    return mult
-
-
-def if_Prime(i):
-    """
-    Checks if a number is prime.
-    """
-    if i == 1:
-        return False
-    for j in range(2, i):
-        if i % j == 0:
-            return False
-    return True
-
-
-def get_Primes(n):
-    """
-    Dispatchs a given set into prime numbers and non-prime numbers.
-    """
-    count = 0
-    targ = list(n)
-    for i in range(1, len(targ) + 1):
-        if if_Prime(i):
-            count += 1
-            targ.remove(i)
-            targ = get_Multiples(i, targ)
-        else:
-            pass
-    return count
-
-
 def isWinner(x, nums):
     """
-    Maria and Ben are playing a game.Given a set of consecutive integers
-    starting from 1 up to and including n, they take turns choosing a
-    prime number from the set and removing that number and its
-    multiples from the set.
-    The player that cannot make a move loses the game.
+    Function to determine the winner of a game played between Maria and Ben.
+    
+    Parameters:
+    x (int): The number of rounds.
+    nums : List of integers representing the maximum number for each round.
 
-    They play x rounds of the game, where n may be different for each round.
-    Assuming Maria always goes first and both players play optimally,
-    determine who the winner of each game is.
+    Returns:
+    str: The name of the player who won the most rounds.
     """
-    players = {'Maria': 0, 'Ben': 0}
-    cluster = set()
-    for elem in range(x):
-        nums.sort()
-        num = nums[elem]
-        for i in range(1, num + 1):
-            cluster.add(i)
-            if i == num + 1:
-                break
-        temp = get_Primes(cluster)
 
-        if temp % 2 == 0:
-            players['Ben'] += 1
-        elif temp % 2 != 0:
-            players['Maria'] += 1
+    def sieve(n):
+        """
+        Function to generate all primes up to n using the Sieve algorithm.
+        
+        Parameters:
+        n (int): The upper limit for generating prime numbers.
 
-    if players['Maria'] > players['Ben']:
-        return 'Maria'
-    elif players['Maria'] < players['Ben']:
-        return 'Ben'
+        Returns:
+        list: A boolean list where True indicates the index is a prime number.
+        """
+        primes = [True for i in range(n+1)]
+        p = 2
+        while (p * p <= n):
+            if (primes[p] == True):
+                for i in range(p * p, n+1, p):
+                    primes[i] = False
+            p += 1
+        return primes
+
+    maria_wins = 0
+    ben_wins = 0
+
+    for n in nums:
+        primes = sieve(n)
+        prime_count = sum(primes) - 2
+        if prime_count % 2 == 0:
+            ben_wins += 1
+        else:
+            maria_wins += 1
+
+    if maria_wins > ben_wins:
+        return "Maria"
+    elif ben_wins > maria_wins:
+        return "Ben"
     else:
         return None
