@@ -32,16 +32,11 @@ def get_Primes(n):
     """
     Dispatchs a given set into prime numbers and non-prime numbers.
     """
-    count = 0
-    targ = list(n)
-    for i in range(1, len(targ) + 1):
+    Count = 0
+    for i in range(2, n + 1):
         if if_Prime(i):
-            count += 1
-            targ.remove(i)
-            targ = get_Multiples(i, targ)
-        else:
-            pass
-    return count
+            Count += 1
+    return Count
 
 
 def isWinner(x, nums):
