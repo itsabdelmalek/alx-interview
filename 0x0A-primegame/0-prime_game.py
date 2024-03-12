@@ -49,17 +49,25 @@ def isWinner(x, nums):
     determine who the winner of each game is.
     """
 
-    ben_wins = maria_wins = 0
+    players = {'Maria': 0, 'Ben': 0}
+    cluster = set()
+    for elem in range(x):
+        nums.sort()
+        num = nums[elem]
+        for i in range(1, num + 1):
+            cluster.add(i)
+            if i == num + 1:
+                break
+        temp = get_Primes(cluster)
 
-    if x <= 0:
+        if temp % 2 == 0:
+            players['Ben'] += 1
+        elif temp % 2 != 0:
+            players['Maria'] += 1
+
+    if players['Maria'] > players['Ben']:
+        return 'Maria'
+    elif players['Maria'] < players['Ben']:
+        return 'Ben'
+    else:
         return None
-
-    for i in range(x):
-        if get_Primes(nums[i]) % 2 == 0:
-            ben_wins += 1
-        else:
-            maria_wins += 1
-
-    if ben_wins == maria_wins:
-        return None
-    return 'Ben' if ben_wins > maria_wins else 'Maria'
