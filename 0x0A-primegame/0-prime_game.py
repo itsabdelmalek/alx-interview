@@ -1,73 +1,46 @@
 #!/usr/bin/python3
-"""
-Prime Game code
-"""
+"""Prime game code"""
 
 
-def get_Multiples(num, mult):
-    """
-    Finds multiples of a given number within a list
-    """
-    for i in mult:
-        if i % num == 0:
-            mult.remove(i)
-    return mult
-
-
-def if_Prime(i):
-    """
-    Checks if a number is prime.
-    """
-    if (i <= 1):
+def if_Prime(n):
+    """Checks if a number is prime."""
+    if n <= 1:
         return False
-    j = 2
-    while (j * j) <= i:
-        if (i % j) == 0:
+    elif n <= 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
             return False
-        j += 1
+        i += 6
     return True
 
 
-def get_Primes(n):
-    """
-    Dispatchs a given set into prime numbers and non-prime numbers.
-    """
+def get_Prime(num):
+    """gets the prime numbers in a list."""
     count = 0
-    targ = list(n)
-    for i in range(1, len(targ) + 1):
-        if if_Prime(i):
+    for num in num:
+        if if_Prime(num):
             count += 1
-            targ.remove(i)
-            targ = get_Multiples(i, targ)
-        else:
-            pass
     return count
 
 
 def isWinner(x, nums):
-    """
-    determine who the winner of each game is.
-    """
-
-    players = {'Maria': 0, 'Ben': 0}
-    cluster = set()
-    for elem in range(x):
-        nums.sort()
-        num = nums[elem]
-        for i in range(1, num + 1):
-            cluster.add(i)
-            if i == num + 1:
-                break
-        temp = get_Primes(cluster)
-
-        if temp % 2 == 0:
-            players['Ben'] += 1
-        elif temp % 2 != 0:
-            players['Maria'] += 1
-
-    if players['Maria'] > players['Ben']:
-        return 'Maria'
-    elif players['Maria'] < players['Ben']:
-        return 'Ben'
-    else:
+    """Determines who the winner of the game is."""
+    ben = 0
+    maria = 0
+    if x <= 0 or not nums:
         return None
+    for num in range(x):
+        num_arr = [n for n in range(1, nums[num] + 1)]
+        if get_Prime(num_arr) % 2 == 0:
+            ben += 1
+        else:
+            maria += 1
+    if ben > maria:
+        return "Ben"
+    if ben == maria:
+        return None
+    return "Maria"
